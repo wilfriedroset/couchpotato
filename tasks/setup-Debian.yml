@@ -1,0 +1,23 @@
+---
+- name: 'Only run "update_cache=yes" if the last one is more than 3600s ago'
+  apt:
+    update_cache: true
+    cache_valid_time: 3600
+
+- name: 'Install CouchPotato dependencies'
+  apt:
+    name: "{{ packages }}"
+    state: 'present'
+  vars:
+    packages:
+      - git
+      - libffi-dev
+      - libssl-dev
+      - libxml2
+      - libxml2-dev
+      - libxslt1-dev
+      - libxslt1.1
+      - openssl
+      - python-dev
+      - python-pip
+      - python2.7

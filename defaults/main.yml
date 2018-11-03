@@ -1,0 +1,8 @@
+---
+couchpotato_user: 'couchpotato'
+couchpotato_group: 'couchpotato'
+
+couchpotato_data: "/var/lib/couchpotato"
+couchpotato_repo: 'https://github.com/CouchPotato/CouchPotatoServer.git'
+couchpotato_src: '/opt/couchpotato'
+couchpotato_version: 'master'

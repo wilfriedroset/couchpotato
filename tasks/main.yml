@@ -1,0 +1,60 @@
+---
+- include_tasks: setup-RedHat.yml
+  when: ansible_os_family == 'RedHat'
+
+- include_tasks: setup-Debian.yml
+  when: ansible_os_family == 'Debian'
+
+- name: 'Install pyopenssl'
+  pip:
+    name: 'pyopenssl'
+    state: 'present'
+
+- name: 'Add couchpotato group'
+  group:
+    name: "{{ couchpotato_group }}"
+
+- name: 'Add couchpotato user'
+  user:
+    name: "{{ couchpotato_user }}"
+    group: "{{ couchpotato_group }}"
+    create_home: false
+
+- name: 'Install couchpotato source'
+  git:
+    repo: "{{ couchpotato_repo }}"
+    dest: "{{ couchpotato_src }}"
+    version: "{{ couchpotato_version }}"
+    update: false
+
+- name: "Update ownership of {{ couchpotato_src }}"
+  file:
+    path: "{{ couchpotato_src }}"
+    owner: "{{ couchpotato_user }}"
+    group: "{{ couchpotato_group }}"
+
+- name: "Create data directory {{ couchpotato_data }}"
+  file:
+    path: "{{ couchpotato_data }}"
+    state: 'directory'
+    owner: "{{ couchpotato_user }}"
+    group: "{{ couchpotato_group }}"
+
+- name: 'Install systemd service file'
+  template:
+    src: 'templates/init.systemd.j2'
+    dest: '/etc/systemd/system/couchpotato.service'
+    owner: 'root'
+    group: 'root'
+    mode: '0644'
+  notify: 'reload-systemd'
+
+- name: 'Enable couchpotato service'
+  service:
+    name: 'couchpotato'
+    enabled: true
+
+- name: 'Start couchpotato'
+  service:
+    name: 'couchpotato'
+    state: 'started'

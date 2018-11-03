@@ -1,0 +1,13 @@
+[Unit]
+Description=CouchPotato Daemon
+After=network.target
+
+[Service]
+User={{ couchpotato_user }}
+Group={{ couchpotato_group }}
+
+ExecStart=/usr/bin/python2.7 {{ couchpotato_src}}/CouchPotato.py --data_dir={{ couchpotato_data }}
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

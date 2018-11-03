@@ -1,0 +1,8 @@
+---
+repos:
+  - repo: https://github.com/ansible/ansible-lint.git
+    sha: master
+    hooks:
+      - id: ansible-lint
+        files: \.(yaml|yml)$
+        exclude: .travis.yml

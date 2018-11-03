@@ -1,0 +1,7 @@
+---
+- hosts: 'all'
+  become: true
+  roles:
+    - couchpotato
+    # - {role: 'couchpotato', couchpotato_user: 'pi', couchpotato_group: 'pi'}
+    # - {role: 'couchpotato', couchpotato_version: 'v2018.10.29-2'}

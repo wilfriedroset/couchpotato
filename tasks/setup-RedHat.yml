@@ -1,0 +1,30 @@
+---
+# Install first epel respository so we can install python-pip
+- name: 'Add epel repository'
+  yum:
+    name: 'epel-release'
+    state: 'present'
+
+- name: 'Add epel key'
+  rpm_key:
+    state: present
+    key: '/etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7'
+
+- name: 'Install CouchPotato dependencies'
+  yum:
+    name: "{{ packages }}"
+    state: 'present'
+    update_cache: true
+  vars:
+    packages:
+      - git
+      - libffi-devel
+      - libxml2
+      - libxml2-devel
+      - libxslt
+      - libxslt-devel
+      - openssl
+      - openssl-devel
+      - python-devel
+      - python2
+      - python2-pip
